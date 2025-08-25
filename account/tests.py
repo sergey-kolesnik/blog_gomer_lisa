@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.core.exceptions import ValidationError
+from django.views.generic import TemplateView
 
 class ModelTests(TestCase):
     """Тесты для модели пользователя"""
@@ -53,8 +54,29 @@ class ModelTests(TestCase):
         user = self.User.objects.create_user(**self.user_data)
         self.assertEqual(str(user), self.user_data["username"])
 
+class HomePageTests(TestCase):
+    """Тесты для главной страницы"""
+    def test_home_page_url_exists(self):
+        """Тест: главная страница доступна по url"""
+        responce = self.client.get("/")
+        self.assertEqual(responce.status_code, 200)
 
-class RegistrationViewTest(TestCase):
+    def test_home_page_uses_corretc_templates(self):
+        """Тест: используется правильный шаблон"""
+        responce = self.client.get(reverse("home"))
+        self.assertEqual(responce, "Login")
+        self.assertEqual(responce, "Register")
+        self.assertEqual(responce,"href='/account/login/'")
+        self.assertEqual(responce, "href='/account/register/'")
+
+    def test_home_view_uses_template_view(self):
+        """Тест: view использует TemplateView"""
+        from account.views import HomePageView
+        self.assertTrue(issubclass(HomePageView, TemplateView))
+
+
+
+class RegistrationViewTests(TestCase):
     """Тест для view-функции регистрации"""
     def test_registration_view_url_exists(self):
         """Тест: URL регистрации доступен"""
