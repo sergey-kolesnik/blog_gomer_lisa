@@ -8,6 +8,25 @@ from django.utils import timezone
 from .manager import CustemUserManager
 
 class User(AbstractBaseUser, PermissionsMixin):
+    """
+    Кастомная модель пользователя, использующая email в качестве 
+    основного идентификатора для аутентификации вместо username.
+    
+    Наследует от:
+        AbstractBaseUser: Базовая функциональность аутентификации
+        PermissionsMixin: Система прав и разрешений Django
+    
+    Attributes:
+        username (CharField): Уникальное имя пользователя.
+        email (EmailField): Уникальный email адрес (используется для входа).
+        is_staff (BooleanField): Определяет доступ к админ-панели.
+        is_active (BooleanField): Определяет активность аккаунта.
+        created (DateTimeField): Дата и время создания аккаунта.
+    
+    Meta:
+        USERNAME_FIELD: Поле, используемое для аутентификации (email).
+        REQUIRED_FIELDS: Обязательные поля при создании суперпользователя.
+    """
     username = models.CharField(
         max_length=50,
         unique=True,
