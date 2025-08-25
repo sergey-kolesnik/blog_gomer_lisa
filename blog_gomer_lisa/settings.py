@@ -123,4 +123,4 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #Указываем Django использовать нашу кастомную модель пользователя вместо стандартной
-AUTH_USER_MODEL = "account.CustomUser"
+AUTH_USER_MODEL = "account.User"
