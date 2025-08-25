@@ -19,11 +19,11 @@ class ModelTests(TestCase):
         user = self.User.objects.create_user(**self.user_data)
 
         self.assertEqual(user.email, self.user_data["email"])
-        self.assertEqual(user.username, self.user_date["username"])
-        self.assertTrue(user.check_password(self.user_date["password"]))
+        self.assertEqual(user.username, self.user_data["username"])
+        self.assertTrue(user.check_password(self.user_data["password"]))
         self.assertTrue(user.is_active)
-        self.asserFalse(user.is_staff)
-        self.asserFalse(user.is_superuser)
+        self.assertFalse(user.is_staff)
+        self.assertFalse(user.is_superuser)
 
     def test_create_user_with_email_raises_error(self):
         """Тест: создание поользователя без email вызывает ошибку"""
@@ -47,7 +47,7 @@ class ModelTests(TestCase):
         self.assertTrue(admin_user.is_staff)
         self.assertTrue(admin_user.is_superuser)
 
-        def test_user_string_representation(self):
-            """Тест: строковое представление пользователя"""
-            user = self.User.objects.create_user(**self.user_data)
-            self.assertEqual(str(user), self.user_data["username"])
+    def test_user_string_representation(self):
+        """Тест: строковое представление пользователя"""
+        user = self.User.objects.create_user(**self.user_data)
+        self.assertEqual(str(user), self.user_data["username"])
