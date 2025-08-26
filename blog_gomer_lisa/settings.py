@@ -119,10 +119,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 STATIC_URL = '/static/'
+
+# Папка static расположена в корневой директории проекта
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),  # Только одна папка!
-]
+    BASE_DIR / 'static' ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# MEDIA_URL = '/media/'
+
+# # Папка для хранения медиа-файлов
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -130,5 +136,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #Указываем Django использовать нашу кастомную модель пользователя вместо стандартной
 AUTH_USER_MODEL = "account.User"
+
+
 
 

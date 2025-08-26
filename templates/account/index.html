@@ -1,0 +1,14 @@
+{% extends "account/base_account.html" %}
+{% load static %}
+
+{% block account_content %}
+    <div class="account-page__content_link">
+        <a href="{% url 'account:login' %}" class="account-page__link">
+        Sign up
+    </a>
+    <a href="{% url 'account:register' %}" class="account-page__link">
+        Register
+    </a>
+    </div>
+    
+{% endblock %}

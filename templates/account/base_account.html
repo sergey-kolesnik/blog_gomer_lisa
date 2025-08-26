@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+
+<section class="account-page">
+    <div class="account-page__container container">
+        <div class="account-page__logo">
+            <img src="{% static 'img/logo.svg' %}" alt="Logo">
+        </div>
+        <div class="account-page__content">
+        {% block account_content %}
+        
+        {% endblock %}
+        </div>
+    </div>
+</section>
+{% endblock  %}
