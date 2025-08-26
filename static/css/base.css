@@ -91,3 +91,8 @@ ul {
 	width: 100%;
   }
 
+
+  :root {
+	--white: #ffffff;
+	--teal_green_dark: #2D5A5F;
+  }
