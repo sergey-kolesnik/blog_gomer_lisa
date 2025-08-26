@@ -1,0 +1,21 @@
+.account-page__container {
+    display: flex;
+    flex-direction: row;
+}
+
+
+
+.account-page__logo {
+    margin-right: 165px;
+    padding-top: 40px;
+
+}
+
+
+.account-page__content {
+    min-width: 670px;
+    min-height: 1024px;
+    padding-top: 291px;
+    background-image: url("../../img/account_img.png");
+}
+
