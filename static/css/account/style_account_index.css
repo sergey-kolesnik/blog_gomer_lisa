@@ -8,17 +8,17 @@
     padding-top: 134px;
     max-width: 440px;
     min-height: 372px;
-    background-color: #FFFFFF;
+    background-color: var(--white);
 
 
 }
 
 .account-page__link {
-    display: inline-block;
+    display: inline;
     font-family: 'Bayon Regular';
     font-size: 32px;
     font-weight: 400;
     text-align: center;
-    color: #2D5A5F;
+    color: var(--teal_green_dark);
 }
 
