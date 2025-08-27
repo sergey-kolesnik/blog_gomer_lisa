@@ -7,7 +7,7 @@
 
 
 .account-page__logo {
-    /* margin-right: 165px; */
+    min-width: 179px;
     padding-top: 40px;
 
 }
@@ -15,8 +15,143 @@
 
 .account-page__content {
     min-width: 670px;
-    min-height: 1024px;
+    height: 100vh;
+    padding-left: 115px;
+    padding-right: 115px;
     padding-top: 291px;
     background-image: url("../../img/account_img.png");
 }
 
+
+
+
+.account-page__content-group{
+
+    min-height: 372px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: var(--white);
+}
+
+
+.account-page__content-group--index,
+.account-page__content-group--register {
+    display: flex;
+    flex-direction: column;
+}
+
+.account-page__content-group--index {
+    padding-top: 134px;      
+}
+
+
+.account-page__link {
+    display: inline;
+    font-family: 'Bayon Regular';
+    font-size: 32px;
+    font-weight: 400;
+    text-align: center;
+    color: var(--teal_green_dark);
+    transition: color 0.3s ease-in-out;
+}
+
+.account-page__link:hover {
+    color: var(--red);
+}
+
+.account-page__link:focus {
+    color: var(--gold);
+    outline: none;
+}
+
+.account-page__link:active {
+    color: var(--teal_green_dark);
+}
+
+
+.account-page__title {
+    margin-bottom: 60px;
+    font-family: 'Bayon Regular';
+    font-size: 32px;
+    font-weight: 400;
+    text-align: center;
+    color: var(--teal_green_dark);
+
+}
+
+.account-page__content-group--register  {
+    padding: 24px;
+}
+
+
+.account-page__form-label {
+    display: block;
+    margin-bottom: 6px;
+    font-family: "Bayon Regular";
+    font-size: 14px;
+    font-weight: 500;
+    text-align: left;
+    color: var(--teal_green_dark);
+}
+
+.account-page__form-input {
+    width: 408px;
+    height: 44px;
+    padding: 10px 14px;
+    margin-bottom: 16px;
+}
+
+
+
+.account-page__button {
+    width: 408px;
+    height: 44px;
+    border: none;
+    margin-top: 15px;
+    margin-bottom: 30px;
+    font-family: "Bayon Regular";
+    font-size: 20px;
+    background-color: var(--teal_green_dark);
+    color: var(--white);
+    transition: color 0.3s ease-in-out;
+    outline: none;
+}
+
+.account-page__button:hover {
+    background-color: var(--red);
+}
+
+.account-page__button:focus {
+    box-shadow: 0 0 0 3px var(--gold);
+}
+
+.account-page__button:active {
+    background-color: var(--teal_green_dark);
+    box-shadow: none;
+}
+
+
+.account-page__content-group--link {
+    display: inline;
+    max-width: max-content;
+    font-family:  "Bayon Regular";
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--gray);
+    border: none;
+    outline: none;
+    transition: color 0.3s ease-in-out;
+}
+
+.account-page__content-group--link:hover {
+    color: var(--red);
+}
+
+.account-page__content-group--link:focus {
+    box-shadow: 0 0 0 3px var(--gold);
+}
+
+.account-page__content-group--link:active {
+    box-shadow: none;
+    color: var(--gray);
+}

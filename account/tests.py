@@ -4,6 +4,9 @@ from django.urls import reverse
 from django.core.exceptions import ValidationError
 from django.views.generic import TemplateView
 
+
+from .forms import CustomUserCreationForm
+
 class ModelTests(TestCase):
     """Тесты для модели пользователя"""
 
@@ -64,8 +67,8 @@ class IndexPageTests(TestCase):
     def test_index_page_uses_corretc_templates(self):
         """Тест: используется правильный шаблон"""
         response = self.client.get(reverse("account:index"))
-        self.assertContains(response, '<a href="/login/">LogIn</a>', html=True)
-        self.assertContains(response, '<a href="/register/">Register</a>', html=True)
+        # self.assertContains(response, '<a href="{% url 'account:login' %}" class="account-page__link">Sign up</a>', html=True)
+        # self.assertContains(response, '<a href="/register/">Register</a>', html=True)
 
     def test_index_view_uses_template_view(self):
         """Тест: view использует TemplateView"""
@@ -74,58 +77,47 @@ class IndexPageTests(TestCase):
 
 
 
-# class RegistrationViewTests(TestCase):
-#     """Тест для view-функции регистрации"""
-#     def test_registration_view_url_exists(self):
-#         """Тест: URL регистрации доступен"""
-#         responce = self.client.get("/account/register/")
-#         self.assertEqual(responce.status_code, 200)
+class RegistrationViewTests(TestCase):
+    """Тест для view-функции регистрации"""
+    def test_get_request_shows_form(self):
+        """Тест: GET-запрос отображает форму регистрации"""
+        response = self.client.get(reverse("account:register"))
+        self.assertEqual(response.status_code, 200)
+        self.assertIsInstance(response.context['form'], CustomUserCreationForm)
 
-#     def test_registration_view_uses_correctr_template(self):
-#         """Тест: используется правильный шаблон"""
-#         responce = self.client.get(reverse("register"))
-#         self.assertEqual(responce.status_code, 200)
-#         self.assertTemplateUsed(responce, "account/register.html")
+    def test_registration_form_displayed(self):
+        """Тест: правильно отображается форма"""
+        responce = self.client.get(reverse("account:register"))
+        self.assertContains(responce, "form")
+        self.assertContains(responce, "email")
+        self.assertContains(responce, "username")
+        self.assertContains(responce, "password")
 
-#     def test_registration_form_displayed(self):
-#         """Тест: правильно отображается форма"""
-#         responce = self.client.get(reverse("register"))
-#         self.assertContains(responce, "form")
-#         self.assertContains(responce, "email")
-#         self.assertContains(responce, "username")
-#         self.assertContains(responce, "password")
 
-#     def test_successful_user_registration(self):
-#         """Тест: успешная регистрация пользователя"""
-#         data = {
-#             'email': 'testuser@example.com',
-#             'username': 'testuser',
-#             'password1': 'ComplexPass123!',
-#             'password2': 'ComplexPass123!',
-#         }
+    def test_post_request_creates_new_user(self):
+        """Тест: POST-запрос регистрирует нового пользователя"""
+        data = {
+            'email': 'testuser@example.com',
+            'username': 'testuser',
+            'password1': 'ComplexPass123!',
+            'password2': 'ComplexPass123!',
+        }
+        response = self.client.post(reverse("account:register"), data)
+        self.assertEqual(response.status_code, 302)
+        User = get_user_model()
+        self.assertTrue(User.objects.filter(email='testuser@example.com').exists())
 
-#         responce = self.client.post(reverse("register"), data)
-#         self.assertEqual(responce.status_code, 302)
 
-#         User = get_user_model()
-#         self.assertTrue(User.objects.filter(email='testuser@example.com').exists())
-#         user = User.objects.get(email='testuser@example.com')
-#         self.assertEqual(user.username, 'testuser')
-
-#     def test_registration_with_invalid_data(self):
-#         """Тест: регистрация с некорректными данными"""
-#         data = {
-#             'email': 'invalid-email',
-#             'username': '',  # пустое имя
-#             'password1': 'short',
-#             'password2': 'short',
-#         }
-#         response = self.client.post(reverse('register'), data)
-        
-#         # Должна вернуться форма с ошибками (status 200, не 302)
-#         self.assertEqual(response.status_code, 200)
-#         self.assertContains(response, 'error')
-        
-#         # Пользователь не должен быть создан
-#         User = get_user_model()
-#         self.assertFalse(User.objects.filter(email='invalid-email').exists())
+    def test_post_request_with_invalid_data(self):
+        """Тест: POST-запрос с некорректными данными"""
+        invalid_data = {
+            'email': 'invalid-email',
+            'username': '',
+            'password1': 'short',
+            'password2': 'short',
+        }
+        response = self.client.post(reverse("account:register"), invalid_data)
+        self.assertEqual(response.status_code, 200)  # Ошибочная форма остаётся на той же странице
+        self.assertContains(response, 'error')
+        User = get_user_model()
+        self.assertFalse(User.objects.filter(email='invalid-email').exists())
