@@ -1,8 +1,9 @@
 {% extends "account/base_account.html" %}
 {% load static %}
+{% block title %}Index{% endblock %}
 
 {% block account_content %}
-    <div class="account-page__content_link">
+    <div class="account-page__content-group--index">
         <a href="{% url 'account:login' %}" class="account-page__link">
         Sign up
     </a>
@@ -10,5 +11,4 @@
         Register
     </a>
     </div>
-    
 {% endblock %}

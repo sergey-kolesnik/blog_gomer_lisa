@@ -39,7 +39,7 @@ class CustemUserManager(BaseUserManager):
             **extra_fields
                           )
         user.set_password(password)
-        user.save(using=self._db)
+        user.save()
         return user
     
     def create_superuser(self, email, username, password=None, **extra_fields):

@@ -1,0 +1,81 @@
+{% extends "account/base_account.html" %}
+{% load static %}
+{% block title %}Register{% endblock %}
+
+{% block account_content %}
+<div class="account-page__content-group--register">
+    <h2 class="account-page__title">
+        Register
+    </h2>
+    <form method="post" class="account-page__form">
+        {% csrf_token %}
+
+        {# Username field #}
+        <div class="account-page__form-group">
+             <div class="account-page__form-field">
+                 <label for="{{ form.username.id_for_label }}" class="account-page__form-label">Name</label>
+                {{ form.username }}
+             </div>
+             {% if form.username.errors %}
+                <ul class="account-page__form-errors">
+                {% for error in form.username.errors %}
+                    <li class="account-page__form-error">{{ error }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+        {# Email field #}
+        <div class="account-page__form-group">
+            <div class="account-page__form-field">
+                 <label for="{{ form.email.id_for_label }}" class="account-page__form-label">Email</label>
+                {{ form.email }}
+            </div>
+            {% if form.email.errors %}
+                <ul class="account-page__form-errors">
+                    {% for error in form.email.errors %}
+                        <li class="account-page__form-error">{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+        {# Password field #}
+        <div class="account-page__form-group">
+             <div class="account-page__form-field">
+                <label for="{{ form.password1.id_for_label }}" class="account-page__form-label">Password</label>
+                {{ form.password1 }}
+             </div>
+            {% if form.password1.errors %}
+                <ul class="account-page__form-errors">
+                {% for error in form.password1.errors %}
+                    <li class="account-page__form-error">{{ error }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+        {# Password Confirm #}
+         <div class="account-page__form-group">
+            <div class="account-page__form-field">
+                 {# Указываем label вручную #}
+                <label for="{{ form.password2.id_for_label }}" class="account-page__form-label">Confirm Password</label>
+                {{ form.password2 }}
+            </div>
+            {% if form.password2.errors %}
+                <ul class="account-page__form-errors">
+                {% for error in form.password2.errors %}
+                    <li class="account-page__form-error">{{ error }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="account-page__button">Register</button>
+    </form>
+    <a class="account-page__content-group--link"  href="{ url 'account:login'}">
+        Sing up
+    </a>
+
+</div>
+{% endblock  %}
