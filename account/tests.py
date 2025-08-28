@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.core.exceptions import ValidationError
 from django.views.generic import TemplateView
+from django.contrib.auth import authenticate, login, logout
 
 
 from .forms import CustomUserCreationForm
@@ -121,3 +122,59 @@ class RegistrationViewTests(TestCase):
         self.assertContains(response, 'error')
         User = get_user_model()
         self.assertFalse(User.objects.filter(email='invalid-email').exists())
+
+
+class LoginLogoutTest(TestCase):
+    """Тест для view-функции вход"""
+    
+    @classmethod
+    def setUpTestData(cls):
+        User = get_user_model()
+        cls.user = User.objects.create_user(
+            username='testuser',
+            email='testuser@example.com',
+            password='ComplexPass123!'
+        )
+
+    def test_login_page_accessible(self):
+        """Тест: Доступность страницы входа"""
+        response = self.client.get(reverse("account:login"))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "account/login.html")
+
+    def test_login_form_displayed(self):
+        """Тест: корректное отображение формы входа"""
+        response = self.client.get(reverse("account:login"))
+        self.assertContains(response, "<form")
+        self.assertContains(response, "username")
+        self.assertContains(response, "password")
+
+    def test_successful_login(self):
+        """тест: Успешный вход с корректными данными"""
+        data = {
+            "username": "testuser",
+            "password": "ComplexPass123!"
+        }
+        response = self.client.post(reverse("account:login", data))
+        self.assertEqual(response.status_code, 302)
+        user = authenticate(username='testuser', password='ComplexPass123!')
+        self.assertIsNotNone(user)
+
+
+    def test_failed_login(self):
+        """Тест: Отказ входа с некорректными данными."""
+        data = {
+            'username': 'wronguser',
+            'password': 'badpassword',
+        }
+        response = self.client.post(reverse('account:login'), data)
+        self.assertEqual(response.status_code, 200)  # Форма остаётся на странице
+        self.assertContains(response, 'error')
+
+
+    def test_logout(self):
+        """Тест: Выход пользователя из сессии."""
+        self.client.login(username='testuser', password='ComplexPass123!')
+        response = self.client.get(reverse('account:logout'))
+        self.assertEqual(response.status_code, 302)  # Редирект после выхода
+        self.assertFalse('_auth_user_id' in self.client.session)
